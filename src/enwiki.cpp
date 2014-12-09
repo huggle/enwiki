@@ -9,6 +9,7 @@
 //GNU General Public License for more details.
 
 #include "enwiki.h"
+#include "prodwn.h"
 #include <core.hpp>
 #include <collectable_smartptr.hpp>
 #include <localization.hpp>
@@ -25,7 +26,7 @@
 
 using namespace Huggle;
 
-bool enwiki::WpCk(WikiSite *site)
+bool enwiki::WikiCk(WikiSite *site)
 {
     if (site->Name == "enwiki")
         return true;
@@ -64,7 +65,7 @@ void enwiki::Hook_MainWindowOnLoad(void *window)
 
 void enwiki::ClickPROD()
 {
-    if (!this->Window->CheckEditableBrowserPage() || !WpCk(this->Window->GetCurrentWikiSite()))
+    if (!this->Window->CheckEditableBrowserPage() || !enwiki::WikiCk(this->Window->GetCurrentWikiSite()))
         return;
     if (this->Window->GetCurrentWikiEdit()->Page->IsTalk())
     {
@@ -77,6 +78,9 @@ void enwiki::ClickPROD()
         Generic::MessageBox("Error", "You can't use PROD for templates or categories");
         return;
     }
+    ProdWn *ptr = new ProdWn(this->Window);
+    //ptr->setAttribute(Qt::WA_DeleteOnClose, true);
+    //ptr->show();
 }
 
 #if QT_VERSION < 0x05000

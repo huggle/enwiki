@@ -11,9 +11,11 @@
 #ifndef PRODWN_H
 #define PRODWN_H
 
+#include <definitions.hpp>
 #include <QDialog>
 
-namespace Ui {
+namespace Ui
+{
     class ProdWn;
 }
 
@@ -28,7 +30,6 @@ class ProdWn : public QDialog
 
     private slots:
         void on_buttonBox_rejected();
-
         void on_buttonBox_accepted();
 
     private:

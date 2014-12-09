@@ -30,7 +30,7 @@ class enwiki : public QDeclarativeItem, public Huggle::iExtension
 #endif
     Q_INTERFACES(Huggle::iExtension)
     public:
-        static bool WpCk(WikiSite *site);
+        static bool WikiCk(Huggle::WikiSite *site);
 
         enwiki();
         bool Register();
