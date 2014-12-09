@@ -25,7 +25,7 @@ namespace Huggle
 class enwiki : public QDeclarativeItem, public Huggle::iExtension
 {
     Q_OBJECT
-#if QT_VERSION >= 0x05000
+#if QT_VERSION >= 0x050000
         Q_PLUGIN_METADATA(IID "org.huggle.extension.qt" FILE "enwiki.json")
 #endif
     Q_INTERFACES(Huggle::iExtension)

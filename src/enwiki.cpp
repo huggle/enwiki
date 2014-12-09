@@ -83,7 +83,7 @@ void enwiki::ClickPROD()
     //ptr->show();
 }
 
-#if QT_VERSION < 0x05000
+#if QT_VERSION < 0x050000
     Q_EXPORT_PLUGIN2("org.huggle.extension.qt", enwiki)
 #endif
 
