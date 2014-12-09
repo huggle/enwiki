@@ -13,10 +13,12 @@ uri = org.huggle.extension.qt
 
 # Input
 SOURCES += \
-    enwiki.cpp
+    enwiki.cpp \
+    prodwn.cpp
 
 HEADERS += \
-    enwiki.h
+    enwiki.h \
+    prodwn.h
 
 #OTHER_FILES = qmldir
 
@@ -55,3 +57,6 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/ -lcored
 
 INCLUDEPATH += $$PWD/
 DEPENDPATH += $$PWD/
+
+FORMS += \
+    prodwn.ui

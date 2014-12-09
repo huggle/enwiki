@@ -19,6 +19,7 @@
 namespace Huggle
 {
     class MainWindow;
+    class WikiSite;
 }
 
 class enwiki : public QDeclarativeItem, public Huggle::iExtension
@@ -29,6 +30,8 @@ class enwiki : public QDeclarativeItem, public Huggle::iExtension
 #endif
     Q_INTERFACES(Huggle::iExtension)
     public:
+        static bool WpCk(WikiSite *site);
+
         enwiki();
         bool Register();
         bool IsWorking();

@@ -25,6 +25,14 @@
 
 using namespace Huggle;
 
+bool enwiki::WpCk(WikiSite *site)
+{
+    if (site->Name == "enwiki")
+        return true;
+    Generic::MessageBox("Error", "You can use this feature only on english wikipedia");
+    return false;
+}
+
 enwiki::enwiki()
 {
 }
@@ -56,7 +64,7 @@ void enwiki::Hook_MainWindowOnLoad(void *window)
 
 void enwiki::ClickPROD()
 {
-    if (!this->Window->CheckEditableBrowserPage())
+    if (!this->Window->CheckEditableBrowserPage() || !WpCk(this->Window->GetCurrentWikiSite()))
         return;
     if (this->Window->GetCurrentWikiEdit()->Page->IsTalk())
     {

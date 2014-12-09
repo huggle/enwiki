@@ -1,33 +1,18 @@
-mass-delivery
-=============
+enwiki
+=========
 
-The mass-delivery extension allows a user to send message to a list of users.
+
+This extension has some enwiki specific features
 
 Note: This extension should be checked out in the folder named "huggle" in your huggle3-qt-lx repo
 
 How to build
 =============
 
-Prepare a directory for build, in this example it's /tmp/huggle
+On windows:
+You need to build huggle core library first, once you have that, open the .pro file and ensure that include path is pointing to folder with huggle source code, so that all header files of huggle can be included. Copy huggle core library to src folder of extension.
 
-```
-cd /tmp/huggle
-git clone http://github.com/huggle/mass-delivery
-git clone http://github.com/huggle/huggle3-qt-lx
-# build core
-cd huggle3-qt-lx/huggle
-./configure
-make
-cd -
-cd mass-delivery-md
-qmake
-make
-# copy the plugin to extensions dir
-cp libMassDelivery.so ../..
-cd -
-cd huggle3-qt-lx/huggle
-mkdir extensions
-mv ../../libMassDelivery.so extensions
-```
+Now try to build it. Produced .dll file needs to be copied to extensions folder
 
-Now you should have the mass-delivery extension installed in Huggle
+On linux:
+Make sure that include folder points to huggle folder, then build the library and copy .so file to proper extensions path
