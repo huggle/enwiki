@@ -72,15 +72,15 @@ void enwiki::ClickPROD()
         Generic::pMessageBox(this->Window, "Error", "You can't PROD talk pages");
         return;
     }
-    QString pn = this->Window->CurrentEdit.GetPtr()->Page->GetNS()->GetCanonicalName();
+    QString pn = this->Window->CurrentEdit->Page->GetNS()->GetCanonicalName();
     if (pn == "Template")
     {
         Generic::MessageBox("Error", "You can't use PROD for templates or categories");
         return;
     }
-    ProdWn *ptr = new ProdWn(this->Window);
-    //ptr->setAttribute(Qt::WA_DeleteOnClose, true);
-    //ptr->show();
+    ProdWn *ptr = new ProdWn(this->Window->CurrentEdit, this->Window);
+    ptr->setAttribute(Qt::WA_DeleteOnClose, true);
+    ptr->show();
 }
 
 #if QT_VERSION < 0x050000

@@ -11,6 +11,8 @@
 #ifndef PRODWN_H
 #define PRODWN_H
 
+#include <editquery.hpp>
+#include <collectable_smartptr.hpp>
 #include <definitions.hpp>
 #include <QDialog>
 
@@ -19,14 +21,26 @@ namespace Ui
     class ProdWn;
 }
 
+namespace Huggle
+{
+    class QueryResult;
+    class ApiQuery;
+    class WikiEdit;
+}
+
 #define HUGGLE_PROD "{{subst:proposed deletion|concern="
 
 class ProdWn : public QDialog
 {
         Q_OBJECT
     public:
-        explicit ProdWn(QWidget *parent = 0);
+        explicit ProdWn(Huggle::WikiEdit *edit, QWidget *parent = 0);
         ~ProdWn();
+        Huggle::Collectable_SmartPtr<Huggle::EditQuery> qEdit;
+        //! Whether a message is sent to user or not
+        bool Message();
+        void EnableUI();
+        Huggle::WikiEdit *edit;
 
     private slots:
         void on_buttonBox_rejected();

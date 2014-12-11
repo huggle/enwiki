@@ -10,10 +10,19 @@
 
 #include "prodwn.h"
 #include "ui_prodwn.h"
+#include <generic.hpp>
+#include <apiquery.hpp>
+#include <exception.hpp>
+#include <wikiedit.hpp>
+#include <wikisite.hpp>
+#include <wikiutil.hpp>
 
-ProdWn::ProdWn(QWidget *parent) : QDialog(parent), ui(new Ui::ProdWn)
+using namespace Huggle;
+
+ProdWn::ProdWn(WikiEdit *edit, QWidget *parent) : QDialog(parent), ui(new Ui::ProdWn)
 {
     this->ui->setupUi(this);
+    this->edit = edit;
 }
 
 ProdWn::~ProdWn()
@@ -21,12 +30,60 @@ ProdWn::~ProdWn()
     delete this->ui;
 }
 
+bool ProdWn::Message()
+{
+    return this->ui->checkBox->isChecked();
+}
+
+void ProdWn::EnableUI()
+{
+    this->ui->lineEdit->setEnabled(true);
+    this->ui->checkBox->setEnabled(true);
+    this->ui->buttonBox->setEnabled(true);
+}
+
 void ProdWn::on_buttonBox_rejected()
 {
     this->close();
 }
 
+static void Failed(Query *qr)
+{
+    if (!qr->CallbackOwner)
+        throw new Huggle::NullPointerException("local qr->CallbackOwner", BOOST_CURRENT_FUNCTION);
+    ((ProdWn*)qr->CallbackOwner)->EnableUI();
+    Generic::MessageBox("Failed", "Unable to edit page: " + qr->GetFailureReason());
+    qr->UnregisterConsumer(HUGGLECONSUMER_CALLBACK);
+}
+
+static void Finished(Query *qr)
+{
+    if (!qr->CallbackOwner)
+        throw new Huggle::NullPointerException("local qr->CallbackOwner", BOOST_CURRENT_FUNCTION);
+    // if we don't want to send a message we can quit this
+    if (((ProdWn*)qr->CallbackOwner)->Message())
+    {
+        WikiEdit *edit = ((ProdWn*)qr->CallbackOwner)->edit;
+        QString message = "Proposed deletion of " + edit->Page->PageName;
+        WikiUtil::MessageUser(edit->User, "{{subst:Proposed deletion notify|" + edit->Page->PageName + "}} ~~~~",
+                              message, message);
+    }
+    ((ProdWn*)qr->CallbackOwner)->close();
+    qr->UnregisterConsumer(HUGGLECONSUMER_CALLBACK);
+}
+
 void ProdWn::on_buttonBox_accepted()
 {
-
+    if (this->ui->lineEdit->text().isEmpty())
+    {
+        Generic::MessageBox("No reason", "You didn't provide any reason", MessageBoxStyleNormal, false);
+        return;
+    }
+    this->ui->checkBox->setEnabled(false);
+    this->ui->buttonBox->setEnabled(false);
+    this->ui->lineEdit->setEnabled(false);
+    this->qEdit = WikiUtil::PrependTextToPage(edit->Page, QString(HUGGLE_PROD) + this->ui->lineEdit->text() + "}}", "Nominating page for deletion");
+    this->qEdit->CallbackOwner = this;
+    this->qEdit->FailureCallback = (Callback)Failed;
+    this->qEdit->callback = (Callback)Finished;
 }
