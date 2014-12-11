@@ -33,6 +33,7 @@ class enwiki : public QDeclarativeItem, public Huggle::iExtension
         static bool WikiCk(Huggle::WikiSite *site);
 
         enwiki();
+        ~enwiki();
         bool Register();
         bool IsWorking();
         void Hook_MainWindowOnLoad(void *window);

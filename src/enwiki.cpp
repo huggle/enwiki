@@ -38,6 +38,12 @@ enwiki::enwiki()
 {
 }
 
+enwiki::~enwiki()
+{
+    delete this->menuAfd;
+    delete this->menuProd;
+}
+
 bool enwiki::Register()
 {
     Huggle::Core::HuggleCore = (Huggle::Core*) this->HuggleCore;
