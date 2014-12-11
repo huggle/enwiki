@@ -30,6 +30,11 @@ ProdWn::~ProdWn()
     delete this->ui;
 }
 
+bool ProdWn::WatchlistEdit()
+{
+    return this->ui->checkBox_2->isChecked();
+}
+
 bool ProdWn::Message()
 {
     return this->ui->checkBox->isChecked();
@@ -39,12 +44,8 @@ void ProdWn::EnableUI()
 {
     this->ui->lineEdit->setEnabled(true);
     this->ui->checkBox->setEnabled(true);
-    this->ui->buttonBox->setEnabled(true);
-}
-
-void ProdWn::on_buttonBox_rejected()
-{
-    this->close();
+    this->ui->checkBox_2->setEnabled(true);
+    this->ui->pushButton->setEnabled(true);
 }
 
 static void Failed(Query *qr)
@@ -68,11 +69,15 @@ static void Finished(Query *qr)
         WikiUtil::MessageUser(edit->User, "{{subst:Proposed deletion notify|" + edit->Page->PageName + "}} ~~~~",
                               message, message);
     }
+    if (((ProdWn*)qr->CallbackOwner)->WatchlistEdit())
+    {
+        WikiUtil::Watchlist(((ProdWn*)qr->CallbackOwner)->edit->Page);
+    }
     ((ProdWn*)qr->CallbackOwner)->close();
     qr->UnregisterConsumer(HUGGLECONSUMER_CALLBACK);
 }
 
-void ProdWn::on_buttonBox_accepted()
+void ProdWn::on_pushButton_clicked()
 {
     if (this->ui->lineEdit->text().isEmpty())
     {
@@ -80,9 +85,10 @@ void ProdWn::on_buttonBox_accepted()
         return;
     }
     this->ui->checkBox->setEnabled(false);
-    this->ui->buttonBox->setEnabled(false);
+    this->ui->checkBox_2->setEnabled(false);
+    this->ui->pushButton->setEnabled(false);
     this->ui->lineEdit->setEnabled(false);
-    this->qEdit = WikiUtil::PrependTextToPage(edit->Page, QString(HUGGLE_PROD) + this->ui->lineEdit->text() + "}}", "Nominating page for deletion");
+    this->qEdit = WikiUtil::PrependTextToPage(edit->Page, QString(HUGGLE_PROD) + this->ui->lineEdit->text() + "}}\n", "Nominating page for deletion");
     this->qEdit->CallbackOwner = this;
     this->qEdit->FailureCallback = (Callback)Failed;
     this->qEdit->callback = (Callback)Finished;

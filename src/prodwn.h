@@ -36,15 +36,15 @@ class ProdWn : public QDialog
     public:
         explicit ProdWn(Huggle::WikiEdit *edit, QWidget *parent = 0);
         ~ProdWn();
-        Huggle::Collectable_SmartPtr<Huggle::EditQuery> qEdit;
+        bool WatchlistEdit();
         //! Whether a message is sent to user or not
         bool Message();
         void EnableUI();
+        Huggle::Collectable_SmartPtr<Huggle::EditQuery> qEdit;
         Huggle::WikiEdit *edit;
 
     private slots:
-        void on_buttonBox_rejected();
-        void on_buttonBox_accepted();
+        void on_pushButton_clicked();
 
     private:
         Ui::ProdWn *ui;
