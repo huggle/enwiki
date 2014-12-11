@@ -42,6 +42,7 @@ class enwiki : public QDeclarativeItem, public Huggle::iExtension
         QString GetExtensionDescription() { return "Various tools for english wikipedia"; }
         QString GetExtensionVersion() { return "1.0.0"; }
         QAction *menu;
+        bool Hook_SpeedyBeforeOK(void *edit, void *form);
         bool RequestCore() { return true; }
         bool RequestNetwork() { return true; }
         bool RequestConfiguration() { return true; }

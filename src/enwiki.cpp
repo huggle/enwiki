@@ -21,6 +21,7 @@
 #include <wikiedit.hpp>
 #include <wikisite.hpp>
 #include <wikipage.hpp>
+#include <speedyform.hpp>
 #include <syslog.hpp>
 #include <configuration.hpp>
 
@@ -67,6 +68,18 @@ void enwiki::Hook_MainWindowOnLoad(void *window)
     this->menuProd = new QAction("PROD", this->Window->ui->menuPage);
     this->Window->ui->menuPage->addAction(this->menuProd);
     connect(this->menuProd, SIGNAL(triggered()), this, SLOT(ClickPROD()));
+}
+
+bool enwiki::Hook_SpeedyBeforeOK(void *edit, void *form)
+{
+    if (!WikiCk(((WikiEdit*)edit)->GetSite()))
+        return true;
+    SpeedyForm *sw = (SpeedyForm*)form;
+    // don't send a message to user on G7
+    HUGGLE_DEBUG(sw->GetSelectedTagID(), 0);
+    if (sw->GetSelectedTagID() == "G7")
+        sw->SetMessageUserCheck(false);
+    return true;
 }
 
 void enwiki::ClickPROD()
