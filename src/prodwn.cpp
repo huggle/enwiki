@@ -23,6 +23,7 @@ ProdWn::ProdWn(WikiEdit *edit, QWidget *parent) : QDialog(parent), ui(new Ui::Pr
 {
     this->ui->setupUi(this);
     this->edit = edit;
+    this->setWindowTitle("Deletion of " + edit->Page->PageName);
 }
 
 ProdWn::~ProdWn()
