@@ -72,12 +72,11 @@ void enwiki::Hook_MainWindowOnLoad(void *window)
 
 bool enwiki::Hook_SpeedyBeforeOK(void *edit, void *form)
 {
-    if (!WikiCk(((WikiEdit*)edit)->GetSite()))
-        return true;
     SpeedyForm *sw = (SpeedyForm*)form;
+    if (((WikiEdit*)edit)->GetSite()->Name != "enwiki")
+        return true;
     // don't send a message to user on G7
-    HUGGLE_DEBUG(sw->GetSelectedTagID(), 0);
-    if (sw->GetSelectedTagID() == "G7")
+    if (sw->GetSelectedTagID() == "db-g7")
         sw->SetMessageUserCheck(false);
     return true;
 }
