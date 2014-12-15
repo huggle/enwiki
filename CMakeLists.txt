@@ -34,35 +34,36 @@ else()
     find_package(Qt4 REQUIRED)
 endif()
 
-file(GLOB srcx
+file(GLOB enwiki_srcx
     "src/*.cpp"
 )
-file (GLOB resx
+file (GLOB enwiki_resx
     "src/*.qrc"
 )
-file (GLOB uixx
+file (GLOB enwiki_uixx
     "src/*.ui"
 )
 
-SET(huggle_SOURCES ${srcx})
-SET(huggle_FORMS ${uixx} "src/huggle/mainwindow.ui")
-SET(huggle_RESOURCES ${resx})
+SET(enwiki_SOURCES ${enwiki_srcx})
+SET(enwiki_FORMS ${enwiki_uixx} "src/huggle/mainwindow.ui")
+SET(enwiki_RESOURCES ${enwiki_resx})
 if(QT5_BUILD)
-    QT5_WRAP_CPP(huggle_HEADERS_MOC ${huggle_HEADERS})
-    QT5_WRAP_UI(huggle_FORMS_HEADERS ${huggle_FORMS})
-    QT5_ADD_RESOURCES(huggle_RESOURCES_RCC ${huggle_RESOURCES})
+    QT5_WRAP_CPP(enwiki_HEADERS_MOC ${enwiki_HEADERS})
+    QT5_WRAP_UI(enwiki_FORMS_HEADERS ${enwiki_FORMS})
+    QT5_ADD_RESOURCES(enwiki_RESOURCES_RCC ${enwiki_RESOURCES})
 else()
-    QT4_WRAP_CPP(huggle_HEADERS_MOC ${huggle_HEADERS})
-    QT4_WRAP_UI(huggle_FORMS_HEADERS ${huggle_FORMS})
-    QT4_ADD_RESOURCES(huggle_RESOURCES_RCC ${huggle_RESOURCES})
+    QT4_WRAP_CPP(enwiki_HEADERS_MOC ${enwiki_HEADERS})
+    QT4_WRAP_UI(enwiki_FORMS_HEADERS ${enwiki_FORMS})
+    QT4_ADD_RESOURCES(enwiki_RESOURCES_RCC ${enwiki_RESOURCES})
 endif()
 if (NOT QT5_BUILD)
   INCLUDE(${QT_USE_FILE})
 endif()
 ADD_DEFINITIONS(${QT_DEFINITIONS})
 ADD_DEFINITIONS( -DQT_USE_QSTRINGBUILDER )
-ADD_LIBRARY(en SHARED ${huggle_SOURCES} ${huggle_HEADERS_MOC} ${huggle_FORMS_HEADERS} ${huggle_RESOURCES_RCC})
+ADD_LIBRARY(en SHARED ${enwiki_SOURCES} ${enwiki_HEADERS_MOC} ${enwiki_FORMS_HEADERS} ${enwiki_RESOURCES_RCC})
 TARGET_LINK_LIBRARIES(en ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(en core)
 if (QT5_BUILD)
     qt5_use_modules(en Core Gui Widgets Declarative WebKitWidgets Xml)
 endif()
