@@ -12,7 +12,7 @@ SET(QT_USE_QTWEBKIT TRUE)
 SET(CMAKE_BUILD_TYPE Release)
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_AUTOMOC ON)
-include_directories(src/huggle)
+include_directories(../../)
 #### Qt 4 and 5 ####
 if(QT5_BUILD)
     find_package(Qt5Core REQUIRED)
@@ -45,7 +45,7 @@ file (GLOB enwiki_uixx
 )
 
 SET(enwiki_SOURCES ${enwiki_srcx})
-SET(enwiki_FORMS ${enwiki_uixx} "src/huggle/mainwindow.ui")
+SET(enwiki_FORMS ${enwiki_uixx} "../../mainwindow.ui")
 SET(enwiki_RESOURCES ${enwiki_resx})
 if(QT5_BUILD)
     QT5_WRAP_CPP(enwiki_HEADERS_MOC ${enwiki_HEADERS})
