@@ -13,6 +13,7 @@
 #include <core.hpp>
 #include <collectable_smartptr.hpp>
 #include <localization.hpp>
+#include <QMessageBox>
 #include <query.hpp>
 #include <querypool.hpp>
 #include <mainwindow.hpp>
@@ -21,6 +22,7 @@
 #include <wikiedit.hpp>
 #include <wikisite.hpp>
 #include <wikipage.hpp>
+#include <wikiuser.hpp>
 #include <speedyform.hpp>
 #include <syslog.hpp>
 #include <configuration.hpp>
@@ -68,6 +70,26 @@ void enwiki::Hook_MainWindowOnLoad(void *window)
     this->menuProd = new QAction("PROD", this->Window->ui->menuPage);
     this->Window->ui->menuPage->addAction(this->menuProd);
     connect(this->menuProd, SIGNAL(triggered()), this, SLOT(ClickPROD()));
+}
+
+bool enwiki::Hook_RevertPreflight(void *edit)
+{
+    if (edit == nullptr)
+        return true;
+    WikiEdit *E = (WikiEdit*)edit;
+    if (E->GetSite()->Name != "enwiki")
+        return true;
+    if (E->Page->FounderKnown() && E->Page->GetFounder() == E->User->Username)
+    {
+        int result = Generic::MessageBox("Revert", "This edit was made by a person who created this page, do you want to request a speedy deletion instead?",
+                                                Huggle::MessageBoxStyleQuestion);
+        if (result == QMessageBox::Yes)
+        {
+            this->Window->RequestPD(E);
+            return false;
+        }
+    }
+    return true;
 }
 
 bool enwiki::Hook_SpeedyBeforeOK(void *edit, void *form)
