@@ -40,7 +40,7 @@ class enwiki : public QDeclarativeItem, public Huggle::iExtension
         QString GetExtensionName() { return "English wikipedia tools"; }
         QString GetExtensionAuthor() { return "Petr Bena"; }
         QString GetExtensionDescription() { return "Various tools for english wikipedia"; }
-        QString GetExtensionVersion() { return "1.0.0"; }
+        QString GetExtensionVersion() { return "1.0.1"; }
         QAction *menu;
         bool Hook_RevertPreflight(void *edit);
         bool Hook_SpeedyBeforeOK(void *edit, void *form);
