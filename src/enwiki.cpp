@@ -98,9 +98,13 @@ bool enwiki::Hook_SpeedyBeforeOK(void *edit, void *form)
     if (((WikiEdit*)edit)->GetSite()->Name != "enwiki")
         return true;
     // blank a target page if warning is g3 or g10
-    if (sw->GetSelectedTagID() == "db-g3" || sw->GetSelectedTagID() == "db-g10")
+    if (sw->GetSelectedTagID() == "db-g3")
     {
         sw->ReplacingText = "{{subst:Courtesy blanked}}";
+        sw->ReplacePage = true;
+    }
+    else if (sw->GetSelectedTagID() == "db-g10")
+    {
         sw->ReplacePage = true;
     }
     // don't send a message to user on G7
