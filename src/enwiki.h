@@ -14,7 +14,6 @@
 #define HUGGLE_EXTENSION
 #include <iextension.hpp>
 #include <QAction>
-#include <QDeclarativeItem>
 
 namespace Huggle
 {
@@ -22,7 +21,7 @@ namespace Huggle
     class WikiSite;
 }
 
-class enwiki : public QDeclarativeItem, public Huggle::iExtension
+class enwiki : public QObject, public Huggle::iExtension
 {
     Q_OBJECT
 #if QT_VERSION >= 0x050000
@@ -54,7 +53,5 @@ class enwiki : public QDeclarativeItem, public Huggle::iExtension
         QAction *menuAfd = nullptr;
         Huggle::MainWindow *Window;
 };
-
-QML_DECLARE_TYPE(enwiki)
 
 #endif // ENWIKI_H
