@@ -76,10 +76,17 @@ bool enwiki::Hook_RevertPreflight(void *edit)
     if (E->Page->FounderKnown() && E->Page->GetFounder() == E->User->Username)
     {
         int result = Generic::MessageBox("Revert", "This edit was made by a person who created this page, do you want to request a speedy deletion instead?",
-                                                Huggle::MessageBoxStyleQuestion);
+                                                Huggle::MessageBoxStyleQuestionAbort);
         if (result == QMessageBox::Yes)
         {
             this->Window->RequestPD(E);
+            return false;
+        } else if (result == QMessageBox::No)
+        {
+            return true;
+        } else
+        {
+            // Cancel the request
             return false;
         }
     }
