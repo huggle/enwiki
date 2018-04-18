@@ -41,7 +41,7 @@ file (GLOB enwiki_uixx
 )
 
 SET(enwiki_SOURCES ${enwiki_srcx})
-SET(enwiki_FORMS ${enwiki_uixx} "../../mainwindow.ui")
+SET(enwiki_FORMS ${enwiki_uixx})
 SET(enwiki_RESOURCES ${enwiki_resx})
 if(QT5_BUILD)
     QT5_WRAP_CPP(enwiki_HEADERS_MOC ${enwiki_HEADERS})

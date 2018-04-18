@@ -10,22 +10,22 @@
 
 #include "enwiki.h"
 #include "prodwn.h"
-#include <core.hpp>
-#include <collectable_smartptr.hpp>
-#include <localization.hpp>
+#include <huggle_core/core.hpp>
+#include <huggle_core/collectable_smartptr.hpp>
+#include <huggle_core/localization.hpp>
+#include <huggle_core/query.hpp>
+#include <huggle_core/querypool.hpp>
+#include <huggle_core/mainwindow.hpp>
+#include <huggle_core/generic.hpp>
+#include <huggle_core/wikiedit.hpp>
+#include <huggle_core/wikisite.hpp>
+#include <huggle_core/wikipage.hpp>
+#include <huggle_core/wikiuser.hpp>
+#include <huggle_core/speedyform.hpp>
+#include <huggle_core/syslog.hpp>
+#include <huggle_core/configuration.hpp>
+#include <QMenu>
 #include <QMessageBox>
-#include <query.hpp>
-#include <querypool.hpp>
-#include <mainwindow.hpp>
-#include <generic.hpp>
-#include <ui_mainwindow.h>
-#include <wikiedit.hpp>
-#include <wikisite.hpp>
-#include <wikipage.hpp>
-#include <wikiuser.hpp>
-#include <speedyform.hpp>
-#include <syslog.hpp>
-#include <configuration.hpp>
 
 using namespace Huggle;
 
@@ -61,8 +61,8 @@ bool enwiki::IsWorking()
 void enwiki::Hook_MainWindowOnLoad(void *window)
 {
     this->Window = (Huggle::MainWindow*)window;
-    this->menuProd = new QAction("PROD", this->Window->ui->menuPage);
-    this->Window->ui->menuPage->addAction(this->menuProd);
+    this->menuProd = new QAction("PROD", (QObject*)this->Window->GetMenu(HUGGLE_MW_MENU_PAGE));
+    this->Window->GetMenu(HUGGLE_MW_MENU_PAGE)->addAction(this->menuProd);
     connect(this->menuProd, SIGNAL(triggered()), this, SLOT(ClickPROD()));
 }
 
@@ -75,8 +75,7 @@ bool enwiki::Hook_RevertPreflight(void *edit)
         return true;
     if (E->Page->FounderKnown() && E->Page->GetFounder() == E->User->Username)
     {
-        int result = Generic::MessageBox("Revert", "This edit was made by a person who created this page, do you want to request a speedy deletion instead?",
-                                                Huggle::MessageBoxStyleQuestionAbort);
+        int result = Generic::MessageBox("Revert", "This edit was made by a person who created this page, do you want to request a speedy deletion instead?", Huggle::MessageBoxStyleQuestionAbort);
         if (result == QMessageBox::Yes)
         {
             this->Window->RequestPD(E);

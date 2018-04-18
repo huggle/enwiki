@@ -11,9 +11,9 @@
 #ifndef PRODWN_H
 #define PRODWN_H
 
-#include <editquery.hpp>
-#include <collectable_smartptr.hpp>
-#include <definitions.hpp>
+#include <huggle_core/editquery.hpp>
+#include <huggle_core/collectable_smartptr.hpp>
+#include <huggle_core/definitions.hpp>
 #include <QDialog>
 
 namespace Ui

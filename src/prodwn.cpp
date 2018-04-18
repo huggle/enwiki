@@ -10,12 +10,12 @@
 
 #include "prodwn.h"
 #include "ui_prodwn.h"
-#include <generic.hpp>
-#include <apiquery.hpp>
-#include <exception.hpp>
-#include <wikiedit.hpp>
-#include <wikisite.hpp>
-#include <wikiutil.hpp>
+#include <huggle_core/generic.hpp>
+#include <huggle_core/apiquery.hpp>
+#include <huggle_core/exception.hpp>
+#include <huggle_core/wikiedit.hpp>
+#include <huggle_core/wikisite.hpp>
+#include <huggle_core/wikiutil.hpp>
 
 using namespace Huggle;
 
