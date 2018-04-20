@@ -15,13 +15,13 @@
 #include <huggle_core/localization.hpp>
 #include <huggle_core/query.hpp>
 #include <huggle_core/querypool.hpp>
-#include <huggle_core/mainwindow.hpp>
+#include <huggle_ui/mainwindow.hpp>
 #include <huggle_core/generic.hpp>
 #include <huggle_core/wikiedit.hpp>
 #include <huggle_core/wikisite.hpp>
 #include <huggle_core/wikipage.hpp>
 #include <huggle_core/wikiuser.hpp>
-#include <huggle_core/speedyform.hpp>
+#include <huggle_ui/speedyform.hpp>
 #include <huggle_core/syslog.hpp>
 #include <huggle_core/configuration.hpp>
 #include <QMenu>
