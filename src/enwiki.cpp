@@ -24,6 +24,7 @@
 #include <huggle_ui/speedyform.hpp>
 #include <huggle_core/syslog.hpp>
 #include <huggle_core/configuration.hpp>
+#include <huggle_ui/uigeneric.hpp>
 #include <QMenu>
 #include <QMessageBox>
 
@@ -33,7 +34,7 @@ bool enwiki::WikiCk(WikiSite *site)
 {
     if (site->Name == "enwiki")
         return true;
-    Generic::MessageBox("Error", "You can use this feature only on english wikipedia");
+    UiGeneric::MessageBox("Error", "You can use this feature only on english wikipedia");
     return false;
 }
 
@@ -75,7 +76,7 @@ bool enwiki::Hook_RevertPreflight(void *edit)
         return true;
     if (E->Page->FounderKnown() && E->Page->GetFounder() == E->User->Username)
     {
-        int result = Generic::MessageBox("Revert", "This edit was made by a person who created this page, do you want to request a speedy deletion instead?", Huggle::MessageBoxStyleQuestionAbort);
+        int result = UiGeneric::MessageBox("Revert", "This edit was made by a person who created this page, do you want to request a speedy deletion instead?", Huggle::MessageBoxStyleQuestionAbort);
         if (result == QMessageBox::Yes)
         {
             this->Window->RequestPD(E);
@@ -119,13 +120,13 @@ void enwiki::ClickPROD()
         return;
     if (this->Window->GetCurrentWikiEdit()->Page->IsTalk())
     {
-        Generic::pMessageBox(this->Window, "Error", "You can't PROD talk pages");
+        UiGeneric::pMessageBox(this->Window, "Error", "You can't PROD talk pages");
         return;
     }
     QString pn = this->Window->CurrentEdit->Page->GetNS()->GetCanonicalName();
     if (pn == "Template")
     {
-        Generic::MessageBox("Error", "You can't use PROD for templates or categories");
+        UiGeneric::MessageBox("Error", "You can't use PROD for templates or categories");
         return;
     }
     ProdWn *ptr = new ProdWn(this->Window->CurrentEdit, this->Window);

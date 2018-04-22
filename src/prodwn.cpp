@@ -16,6 +16,7 @@
 #include <huggle_core/wikiedit.hpp>
 #include <huggle_core/wikisite.hpp>
 #include <huggle_core/wikiutil.hpp>
+#include <huggle_ui/uigeneric.hpp>
 
 using namespace Huggle;
 
@@ -54,7 +55,7 @@ static void Failed(Query *qr)
     if (!qr->CallbackOwner)
         throw new Huggle::NullPointerException("local qr->CallbackOwner", BOOST_CURRENT_FUNCTION);
     ((ProdWn*)qr->CallbackOwner)->EnableUI();
-    Generic::MessageBox("Failed", "Unable to edit page: " + qr->GetFailureReason());
+    UiGeneric::MessageBox("Failed", "Unable to edit page: " + qr->GetFailureReason());
     qr->UnregisterConsumer(HUGGLECONSUMER_CALLBACK);
 }
 
@@ -82,7 +83,7 @@ void ProdWn::on_pushButton_clicked()
 {
     if (this->ui->lineEdit->text().isEmpty())
     {
-        Generic::MessageBox("No reason", "You didn't provide any reason", MessageBoxStyleNormal, false);
+        UiGeneric::MessageBox("No reason", "You didn't provide any reason", MessageBoxStyleNormal, false);
         return;
     }
     this->ui->checkBox->setEnabled(false);
