@@ -93,5 +93,5 @@ void ProdWn::on_pushButton_clicked()
     this->qEdit = WikiUtil::PrependTextToPage(edit->Page, QString(HUGGLE_PROD) + this->ui->lineEdit->text() + "}}\n", "Nominating page for deletion");
     this->qEdit->CallbackOwner = this;
     this->qEdit->FailureCallback = (Callback)Failed;
-    this->qEdit->callback = (Callback)Finished;
+    this->qEdit->SuccessCallback = (Callback)Finished;
 }
