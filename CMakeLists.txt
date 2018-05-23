@@ -11,24 +11,19 @@ SET(CMAKE_BUILD_TYPE Release)
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_AUTOMOC ON)
 include_directories(../../)
-#### Qt 4 and 5 ####
-if(QT5_BUILD)
-    find_package(Qt5Core REQUIRED)
-    find_package(Qt5Gui REQUIRED)
-    find_package(Qt5Xml REQUIRED)
-    find_package(Qt5Widgets REQUIRED)
-    find_package(Qt5Network REQUIRED)
-    set(QT_INCLUDES
-        ${Qt5Gui_INCLUDE_DIRS}
-        ${Qt5Widgets_INCLUDE_DIRS}
-        ${Qt5Network_INCLUDE_DIRS}
-        ${Qt5Xml_INCLUDE_DIRS}
-        ${Qt5Svg_INCLUDE_DIRS}
-    )
-    include_directories(${QT_INCLUDES})
-else()
-    find_package(Qt4 REQUIRED)
-endif()
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Gui REQUIRED)
+find_package(Qt5Xml REQUIRED)
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Network REQUIRED)
+set(QT_INCLUDES
+    ${Qt5Gui_INCLUDE_DIRS}
+    ${Qt5Widgets_INCLUDE_DIRS}
+    ${Qt5Network_INCLUDE_DIRS}
+    ${Qt5Xml_INCLUDE_DIRS}
+    ${Qt5Svg_INCLUDE_DIRS}
+)
+include_directories(${QT_INCLUDES})
 
 file(GLOB enwiki_srcx
     "src/*.cpp"
@@ -60,9 +55,7 @@ ADD_DEFINITIONS( -DQT_USE_QSTRINGBUILDER )
 ADD_LIBRARY(huggle_en SHARED ${enwiki_SOURCES} ${enwiki_HEADERS_MOC} ${enwiki_FORMS_HEADERS} ${enwiki_RESOURCES_RCC})
 TARGET_LINK_LIBRARIES(huggle_en ${QT_LIBRARIES})
 TARGET_LINK_LIBRARIES(huggle_en huggle_core huggle_ui)
-if (QT5_BUILD)
-    qt5_use_modules(huggle_en Core Gui Widgets Xml)
-endif()
+TARGET_LINK_LIBRARIES(huggle_en Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Xml)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 if (LINUX_SNAP)
     INSTALL(TARGETS huggle_en DESTINATION bin/extensions)
