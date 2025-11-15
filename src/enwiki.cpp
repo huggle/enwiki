@@ -64,7 +64,7 @@ void enwiki::Hook_MainWindowOnLoad(void *window)
     this->Window = (Huggle::MainWindow*)window;
     this->menuProd = new QAction("PROD", (QObject*)this->Window->GetMenu(HUGGLE_MW_MENU_PAGE));
     this->Window->GetMenu(HUGGLE_MW_MENU_PAGE)->addAction(this->menuProd);
-    connect(this->menuProd, SIGNAL(triggered()), this, SLOT(ClickPROD()));
+    connect(this->menuProd, &QAction::triggered, this, &enwiki::ClickPROD);
 }
 
 bool enwiki::Hook_RevertPreflight(void *edit)
@@ -114,8 +114,9 @@ bool enwiki::Hook_SpeedyBeforeOK(void *edit, void *form)
     return true;
 }
 
-void enwiki::ClickPROD()
+void enwiki::ClickPROD(bool checked)
 {
+    Q_UNUSED(checked);
     if (!this->Window->CheckEditableBrowserPage() || !enwiki::WikiCk(this->Window->GetCurrentWikiSite()))
         return;
     if (this->Window->GetCurrentWikiEdit()->Page->IsTalk())
@@ -137,5 +138,4 @@ void enwiki::ClickPROD()
 #if QT_VERSION < 0x050000
     Q_EXPORT_PLUGIN2("org.huggle.extension.qt", enwiki)
 #endif
-
 

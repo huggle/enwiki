@@ -47,7 +47,7 @@ class enwiki : public QObject, public Huggle::iExtension
         bool RequestNetwork() { return true; }
         bool RequestConfiguration() { return true; }
     private slots:
-        void ClickPROD();
+        void ClickPROD(bool checked = false);
     private:
         QAction *menuProd = nullptr;
         QAction *menuAfd = nullptr;
